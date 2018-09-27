@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="993ec324f8d1491585ae15c23ec106ad" Name="Diagram1" >
+        <EntityTypeShape EntityType="UserDatabaseModel1.User" Width="1.5" PointX="7.375" PointY="3.5" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Event" Width="1.5" PointX="3.5" PointY="3.5" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.EventReport" Width="1.5" PointX="0.5" PointY="4" />
+        <AssociationConnector Association="UserDatabaseModel1.EventEventReport" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.EventMember" Width="1.5" PointX="5.25" PointY="0.5" />
+        <AssociationConnector Association="UserDatabaseModel1.UserEventMember" ManuallyRouted="true" >
+          <ConnectorPoint PointX="8.125" PointY="3.5" />
+          <ConnectorPoint PointX="8.125" PointY="1.4901432291666665" />
+          <ConnectorPoint PointX="6.75" PointY="1.4901432291666665" />
+        </AssociationConnector>
+        <AssociationConnector Association="UserDatabaseModel1.EventEventMember" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.RSVP" Width="1.5" PointX="1.5" PointY="0.5" />
+        <AssociationConnector Association="UserDatabaseModel1.EventMemberRSVP" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Entity1" Width="1.5" PointX="11.125" PointY="3.625" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

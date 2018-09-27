@@ -64,7 +64,19 @@ namespace FIT5032_ozzFIT_V2.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "First Name required")]
+        [StringLength(200, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        [RegularExpression(@"[a-zA-Z'.\s]{1,40}$", ErrorMessage = "Special Characters not allowed")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last Name required")]
+        [StringLength(200, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        [RegularExpression(@"[a-zA-Z'.\s]{1,40}$", ErrorMessage = "Special Characters not allowed")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Password required to protect your information")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,8 +91,45 @@ namespace FIT5032_ozzFIT_V2.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [DataType(DataType.PostalCode)]
+        [StringLength(20, ErrorMessage ="Less than 20 characters")]
+        public string ZipCode { get; set; }
+
+        [StringLength(5, ErrorMessage = "Less than 5 characters")]
+        public string Height { get; set; }
+
+        [StringLength(5, ErrorMessage = "Less than 5 characters")]
+        public string Weight { get; set; }
+
+        //private Gender userGender;
+
+        //public Gender GetUserGender()
+        //{
+        //    return userGender;
+        //}
+
+        //public void SetUserGender(Gender value)
+        //{
+        //    userGender = value;
+        //}
+
+        [Required]
+        public Gender userGender { get; set; }
+
+      
+        [Required(ErrorMessage = "Date of birth is required")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        public System.DateTime Dob { get; set; }
     }
 
+    public enum Gender
+    {
+        Male,
+        Female,
+        Other
+    }
     public class ResetPasswordViewModel
     {
         [Required]

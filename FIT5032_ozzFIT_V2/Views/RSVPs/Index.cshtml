@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FIT5032_ozzFIT_V2.Models.RSVP>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RSVPStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumOfGuests)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventMember.UserUserId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RSVPStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumOfGuests)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventMember.UserUserId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RSVPId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RSVPId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RSVPId })
+        </td>
+    </tr>
+}
+
+</table>

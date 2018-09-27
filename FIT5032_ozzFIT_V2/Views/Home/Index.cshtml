@@ -2,30 +2,75 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@*<style>
+    body {
+        background-image: url('../Content/UsersIndex.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        color: white;
+    }
+</style>*@
+
+<main class="jumbotron" style="background-image: url(../../Content/UsersIndex.jpg); color:white">
+    <div class="container">
+        <h1>ozzFIT</h1>
+        <p class="lead">Fitness is a lifestyle</p>
+        <br> 
+        <p>Choose to be fit with ozzFIT</p>
+    </div>
+</main>
+
+
+<div class="bs-docs-featurette">
+    <div class="container">
+        <h2 class="bs-docs-featurette-title">Designed for everyone, everywhere</h2>
+        <p class="lead">ozzFIT strives to make healthier options easy to choose</p>
+        <hr class="half-rule">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Getting started</h2>
+                <p>
+                    Sign up to ozzFIT to get events details and healthy meal options every day.
+                </p>
+
+                @Html.ActionLink("Sign Up", "Register", "Account", new { area = "" }, new { @class = "btn btn-default" })
+            </div>
+            <div class="col-md-4">
+                <h2>Browse events</h2>
+                <p>Signup for events and get more out of life. Get started now</p>
+                @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })
+            </div>
+            <div class="col-md-4">
+                <h2>Connect</h2>
+                <p>Connect with your friends and work together towards a healthier goal.</p>
+               @* @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })*@
+            </div>
+        </div>
+        
+    </div>
 </div>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Sign up to ozzFIT to get events details and healthy meal options every day.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+        @Html.ActionLink("Sign Up", "Register", "Account", new { area = "" }, new { @class = "btn btn-default" })
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Browse events</h2>
+        <p>Signup for events and get more out of life. Get started now</p>
+        @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+</div>*@
+
+
+

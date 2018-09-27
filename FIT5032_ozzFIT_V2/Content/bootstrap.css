@@ -6814,3 +6814,16 @@ td.visible-print {
     display: none !important;
   }
 }
+
+ #map_canvas img {
+    max-width: none
+}
+
+ .infoDiv {
+    height: 200px;
+    width: 300px;
+    -webkit-user-select: none;
+    background-color: white;
+}
+
+

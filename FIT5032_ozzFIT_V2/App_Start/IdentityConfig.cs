@@ -11,15 +11,32 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using FIT5032_ozzFIT_V2.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace FIT5032_ozzFIT_V2
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            string key = @"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";
+
+            var client = new SendGridClient(key);
+
+            var from = new EmailAddress("enigmamurthy@gmail.com", "Enigma");
+
+            var subject = message.Subject;
+            var to = new EmailAddress(message.Destination, "New User");
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body;
+
+            var email = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            await client.SendEmailAsync(email);
+
+            //return Task.FromResult(0);
         }
     }
 
@@ -85,6 +102,11 @@ namespace FIT5032_ozzFIT_V2
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        internal ApplicationUser FindById(object token)
+        {
+            throw new NotImplementedException();
         }
     }
 

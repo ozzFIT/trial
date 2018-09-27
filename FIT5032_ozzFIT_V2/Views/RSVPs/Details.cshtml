@@ -1,0 +1,43 @@
+﻿@model FIT5032_ozzFIT_V2.Models.RSVP
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RSVP</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RSVPStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RSVPStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumOfGuests)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumOfGuests)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventMember.UserUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventMember.UserUserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RSVPId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

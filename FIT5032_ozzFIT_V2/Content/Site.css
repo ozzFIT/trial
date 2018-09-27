@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+   
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +22,20 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/*.bg {
+    background-image: url('../Content/UsersIndex.jpg');
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+    color:white;
+}*/
+
+.jumbotron {
+    position: relative;
+    background-image: url('../Content/UsersIndex.jpg');
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+
 }

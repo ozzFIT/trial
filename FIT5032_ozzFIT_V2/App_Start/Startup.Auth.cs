@@ -58,11 +58,11 @@ namespace FIT5032_ozzFIT_V2
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "789698612970-p1gj4rjfjkol0h8saase1371ubb91r2b.apps.googleusercontent.com",
+                ClientSecret = "SbqrajjYuok7eV3ZqEx9LfnG"
+            });
         }
     }
 }

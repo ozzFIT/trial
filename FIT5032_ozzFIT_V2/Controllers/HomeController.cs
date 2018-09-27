@@ -6,24 +6,33 @@ using System.Web.Mvc;
 
 namespace FIT5032_ozzFIT_V2.Controllers
 {
+    
     public class HomeController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
         }
 
+        //[Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "ozzFIT, Melbourne's best fitness solution";
 
             return View();
         }
 
+        //[Authorize(Roles = "Administrators, RegisteredUser")]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact ozzFIT";
 
+            return View();
+        }
+
+        public ActionResult Events()
+        {
             return View();
         }
     }

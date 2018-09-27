@@ -12,6 +12,7 @@ using FIT5032_ozzFIT_V2.Models;
 
 namespace FIT5032_ozzFIT_V2.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -22,7 +23,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +35,9 @@ namespace FIT5032_ozzFIT_V2.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -72,6 +73,19 @@ namespace FIT5032_ozzFIT_V2.Controllers
             {
                 return View(model);
             }
+
+            //Require the user to confirm the email address before login
+
+            //var user = await UserManager.FindByNameAsync(model.Email);
+            //if(user != null)
+            //{
+            //    if(!await UserManager.IsEmailConfirmedAsync(user.Id))
+            //    {
+            //        ViewBag.errorMessage = "Please confirm the email to login";
+            //        return View("Error");
+            //    }
+            //}
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -120,7 +134,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -147,22 +161,42 @@ namespace FIT5032_ozzFIT_V2.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+                    using (var db = new UserDatabaseModel1Container())
+                    {
+                        var newuser = db.Users.Create();
+                        newuser.FirstName = model.FirstName;
+                        newuser.LastName = model.LastName;
+                        newuser.Email = model.Email;
+                        newuser.Password = model.Password;
+                        newuser.Height = model.Height;
+                        newuser.Weight = model.Weight;
+                        newuser.Gender = model.userGender.ToString();
+                        newuser.ZipCode = Convert.ToInt16(model.ZipCode);
+                        newuser.DateOfBirth = model.Dob.ToString();
+                        db.Users.Add(newuser);
+                        db.SaveChanges();
+                    }
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id,  code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    //return View("Info");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -434,6 +468,9 @@ namespace FIT5032_ozzFIT_V2.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+
+        public string Email { get; private set; }
+        public object Token { get; private set; }
 
         private void AddErrors(IdentityResult result)
         {
