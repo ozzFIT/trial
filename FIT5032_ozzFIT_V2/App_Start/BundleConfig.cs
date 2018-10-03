@@ -23,17 +23,21 @@ namespace FIT5032_ozzFIT_V2
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-datetimepicker.js"));
+                      "~/Scripts/bootstrap-datepicker.js",
+                      "~/Scripts/bootstrap-wysiwyg.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/bootstrap-datetimepicker.css"));
+                      "~/Content/bootstrap-datepicker.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
                        "~/Scripts/lib/jquery.min.js",
                        "~/Scripts/lib/moment.min.js",
                        "~/Scripts/fullcalendar.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Script-custom-editor").Include(
+                       "~/Scripts/script-custom-editor.js"));
 
         }
     }

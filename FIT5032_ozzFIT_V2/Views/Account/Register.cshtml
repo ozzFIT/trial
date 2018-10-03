@@ -3,34 +3,7 @@
     ViewBag.Title = "Register";
     @Scripts.Render("~/bundles/jquery")
 }
-<html>
-<head>
-    <!--  jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-    <!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
-
-    <!-- Bootstrap Date-Picker Plugin -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
-    <script>
-        $(document).ready(function () {
-            var date_input = $('input[name="date"]'); //our date input has the name "date"
-            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
-                format: 'dd/mm/yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            })
-        })
-    </script>
-</head>
-<body>
-
-</body>
-</html>
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -95,15 +68,19 @@
         @Html.LabelFor(m => m.userGender, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownList("userGender",
-                               new SelectList(Enum.GetValues(typeof(FIT5032_ozzFIT_V2.Models.Gender))),
-                               "Select Gender",
-                               new { @class = "form-control" })
+                                    new SelectList(Enum.GetValues(typeof(FIT5032_ozzFIT_V2.Models.Gender))),
+                                    "Select Gender",
+                                    new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Dob, new { @class = "col-md-2 control-label" })
-        
-        @Html.TextBox("Dob", "{0:dd/MM/yyyy}", new { @class = "datepicker" })
+        <div class="col-md-10" id="DateOfBirth">
+            @Html.TextBoxFor(m => m.Dob, new { @class = "form-control" })
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -114,20 +91,40 @@
 }
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
 
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
-        //...
-        $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy', //choose the date format you prefer
-           
-            orientation: 'left bottom'
+        var firstOpen = true;
+        $(function () {
+            $("#DateOfBirth").datepicker({
+                //format: 'dd/mm/yyyy',
+                //inline: true,
+                //sideBySide: true,
+                //orientation: 'left bottom',
+                // if (firstOpen = true) {
+                   
+                //    firstOpen = false;
+                //}
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $("#DateOfBirth").on("dp.change", function (e) {
+                $('#DateOfBirth').data("DateOfBirth").maxDate(e.date);
+            });
+
+            $('#DateOfBirth').on('changeDate', function (selected) {
+                $('#DateOfBirth').datepicker('setDate', selected.date);
+                $(this).datepicker('hide');
+            });
         });
     </script>
     @* @RenderSection("scripts", required: false)*@
 }
 
 
-    
+
 

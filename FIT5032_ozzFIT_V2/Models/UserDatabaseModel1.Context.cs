@@ -27,8 +27,9 @@ namespace FIT5032_ozzFIT_V2.Models
     
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Event> Events { get; set; }
-        public virtual DbSet<EventReport> EventReports { get; set; }
         public virtual DbSet<EventMember> EventMembers { get; set; }
-        public virtual DbSet<RSVP> RSVPs { get; set; }
+        public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<Email> Emails { get; set; }
+        public virtual DbSet<Likes> Likes { get; set; }
     }
 }

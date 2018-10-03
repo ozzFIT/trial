@@ -15,13 +15,9 @@ namespace FIT5032_ozzFIT_V2.Controllers
         private UserDatabaseModel1Container db = new UserDatabaseModel1Container();
 
         // GET: Events
-        public JsonResult Index()
+        public ActionResult Index()
         {
-            // var events = db.Events.Include(@ => @.EventReport);
-            //var events = db.Events.Include("@ => @.EventReport");
-            //return View(events.ToList());
-            var events = db.Events.ToList();
-            return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return View(db.Events.ToList());
         }
 
         // GET: Events/Details/5
@@ -42,7 +38,6 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            ViewBag.EventId = new SelectList(db.EventReports, "EventReportId", "EventName");
             return View();
         }
 
@@ -51,7 +46,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId")] Event @event)
+        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId,LikeCount,DislikeCount")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +55,6 @@ namespace FIT5032_ozzFIT_V2.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EventId = new SelectList(db.EventReports, "EventReportId", "EventName", @event.EventId);
             return View(@event);
         }
 
@@ -76,7 +70,6 @@ namespace FIT5032_ozzFIT_V2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EventId = new SelectList(db.EventReports, "EventReportId", "EventName", @event.EventId);
             return View(@event);
         }
 
@@ -85,7 +78,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId")] Event @event)
+        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId,LikeCount,DislikeCount")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +86,6 @@ namespace FIT5032_ozzFIT_V2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EventId = new SelectList(db.EventReports, "EventReportId", "EventName", @event.EventId);
             return View(@event);
         }
 
@@ -131,7 +123,5 @@ namespace FIT5032_ozzFIT_V2.Controllers
             }
             base.Dispose(disposing);
         }
-
-       
     }
 }

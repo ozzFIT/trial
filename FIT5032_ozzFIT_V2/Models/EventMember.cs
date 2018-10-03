@@ -14,18 +14,10 @@ namespace FIT5032_ozzFIT_V2.Models
     
     public partial class EventMember
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EventMember()
-        {
-            this.RSVPs = new HashSet<RSVP>();
-        }
-    
         public int UserUserId { get; set; }
         public int EventEventId { get; set; }
     
         public virtual User User { get; set; }
         public virtual Event Event { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RSVP> RSVPs { get; set; }
     }
 }

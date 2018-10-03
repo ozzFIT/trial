@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/10/2018 21:15:31
+-- Date Created: 10/01/2018 00:50:25
 -- Generated from EDMX file: \\ad.monash.edu\home\User039\aram0008\Desktop\IAD\Assignment\V2\FIT5032_ozzFIT_V2\FIT5032_ozzFIT_V2\Models\UserDatabaseModel1.edmx
 -- --------------------------------------------------
 
@@ -26,8 +26,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EventEventMember]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventMembers] DROP CONSTRAINT [FK_EventEventMember];
 GO
-IF OBJECT_ID(N'[dbo].[FK_EventMemberRSVP]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RSVPs] DROP CONSTRAINT [FK_EventMemberRSVP];
+IF OBJECT_ID(N'[dbo].[FK_EventComments]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comments] DROP CONSTRAINT [FK_EventComments];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserComments]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comments] DROP CONSTRAINT [FK_UserComments];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserLikes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Likes] DROP CONSTRAINT [FK_UserLikes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EventLikes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Likes] DROP CONSTRAINT [FK_EventLikes];
 GO
 
 -- --------------------------------------------------
@@ -46,8 +55,11 @@ GO
 IF OBJECT_ID(N'[dbo].[EventMembers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[EventMembers];
 GO
-IF OBJECT_ID(N'[dbo].[RSVPs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RSVPs];
+IF OBJECT_ID(N'[dbo].[Comments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Comments];
+GO
+IF OBJECT_ID(N'[dbo].[Likes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Likes];
 GO
 
 -- --------------------------------------------------
@@ -79,7 +91,9 @@ CREATE TABLE [dbo].[Events] (
     [EndDateTime] datetime  NOT NULL,
     [ContactPerson] nvarchar(max)  NOT NULL,
     [ContactDetails] nvarchar(max)  NOT NULL,
-    [UserUserId] int  NOT NULL
+    [UserUserId] int  NOT NULL,
+    [LikeCount] bigint  NOT NULL,
+    [DislikeCount] bigint  NOT NULL
 );
 GO
 
@@ -100,13 +114,22 @@ CREATE TABLE [dbo].[EventMembers] (
 );
 GO
 
--- Creating table 'RSVPs'
-CREATE TABLE [dbo].[RSVPs] (
-    [RSVPId] int IDENTITY(1,1) NOT NULL,
-    [RSVPStatus] nvarchar(max)  NOT NULL,
-    [NumOfGuests] bigint  NOT NULL,
-    [EventMemberEventEventId] int  NOT NULL,
-    [EventMemberUserUserId] int  NOT NULL
+-- Creating table 'Comments'
+CREATE TABLE [dbo].[Comments] (
+    [CommentId] int IDENTITY(1,1) NOT NULL,
+    [CDescription] nvarchar(max)  NOT NULL,
+    [CDateTime] nvarchar(max)  NOT NULL,
+    [EventEventId] int  NOT NULL,
+    [UserUserId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Likes'
+CREATE TABLE [dbo].[Likes] (
+    [likeId] int IDENTITY(1,1) NOT NULL,
+    [Islike] bit  NOT NULL,
+    [UserUserId] int  NOT NULL,
+    [EventEventId] int  NOT NULL
 );
 GO
 
@@ -138,10 +161,16 @@ ADD CONSTRAINT [PK_EventMembers]
     PRIMARY KEY CLUSTERED ([EventEventId], [UserUserId] ASC);
 GO
 
--- Creating primary key on [RSVPId] in table 'RSVPs'
-ALTER TABLE [dbo].[RSVPs]
-ADD CONSTRAINT [PK_RSVPs]
-    PRIMARY KEY CLUSTERED ([RSVPId] ASC);
+-- Creating primary key on [CommentId] in table 'Comments'
+ALTER TABLE [dbo].[Comments]
+ADD CONSTRAINT [PK_Comments]
+    PRIMARY KEY CLUSTERED ([CommentId] ASC);
+GO
+
+-- Creating primary key on [likeId] in table 'Likes'
+ALTER TABLE [dbo].[Likes]
+ADD CONSTRAINT [PK_Likes]
+    PRIMARY KEY CLUSTERED ([likeId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -187,19 +216,64 @@ ADD CONSTRAINT [FK_EventEventMember]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [EventMemberEventEventId], [EventMemberUserUserId] in table 'RSVPs'
-ALTER TABLE [dbo].[RSVPs]
-ADD CONSTRAINT [FK_EventMemberRSVP]
-    FOREIGN KEY ([EventMemberEventEventId], [EventMemberUserUserId])
-    REFERENCES [dbo].[EventMembers]
-        ([EventEventId], [UserUserId])
+-- Creating foreign key on [EventEventId] in table 'Comments'
+ALTER TABLE [dbo].[Comments]
+ADD CONSTRAINT [FK_EventComments]
+    FOREIGN KEY ([EventEventId])
+    REFERENCES [dbo].[Events]
+        ([EventId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_EventMemberRSVP'
-CREATE INDEX [IX_FK_EventMemberRSVP]
-ON [dbo].[RSVPs]
-    ([EventMemberEventEventId], [EventMemberUserUserId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventComments'
+CREATE INDEX [IX_FK_EventComments]
+ON [dbo].[Comments]
+    ([EventEventId]);
+GO
+
+-- Creating foreign key on [UserUserId] in table 'Comments'
+ALTER TABLE [dbo].[Comments]
+ADD CONSTRAINT [FK_UserComments]
+    FOREIGN KEY ([UserUserId])
+    REFERENCES [dbo].[Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserComments'
+CREATE INDEX [IX_FK_UserComments]
+ON [dbo].[Comments]
+    ([UserUserId]);
+GO
+
+-- Creating foreign key on [UserUserId] in table 'Likes'
+ALTER TABLE [dbo].[Likes]
+ADD CONSTRAINT [FK_UserLikes]
+    FOREIGN KEY ([UserUserId])
+    REFERENCES [dbo].[Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserLikes'
+CREATE INDEX [IX_FK_UserLikes]
+ON [dbo].[Likes]
+    ([UserUserId]);
+GO
+
+-- Creating foreign key on [EventEventId] in table 'Likes'
+ALTER TABLE [dbo].[Likes]
+ADD CONSTRAINT [FK_EventLikes]
+    FOREIGN KEY ([EventEventId])
+    REFERENCES [dbo].[Events]
+        ([EventId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_EventLikes'
+CREATE INDEX [IX_FK_EventLikes]
+ON [dbo].[Likes]
+    ([EventEventId]);
 GO
 
 -- --------------------------------------------------

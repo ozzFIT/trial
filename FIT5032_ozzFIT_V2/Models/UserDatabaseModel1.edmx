@@ -8,13 +8,10 @@
   <EntityContainer Name="UserDatabaseModel1StoreContainer">
     <EntitySet Name="Users" EntityType="UserDatabaseModel1.Store.Users" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Events" EntityType="UserDatabaseModel1.Store.Events" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="EventReports" EntityType="UserDatabaseModel1.Store.EventReports" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventMembers" EntityType="UserDatabaseModel1.Store.EventMembers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RSVPs" EntityType="UserDatabaseModel1.Store.RSVPs" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="EventEventReport" Association="UserDatabaseModel1.Store.EventEventReport">
-      <End Role="Event" EntitySet="Events" />
-      <End Role="EventReport" EntitySet="EventReports" />
-    </AssociationSet>
+    <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Emails" EntityType="UserDatabaseModel1.Store.Emails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Likes" EntityType="UserDatabaseModel1.Store.Likes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserEventMember" Association="UserDatabaseModel1.Store.UserEventMember">
       <End Role="User" EntitySet="Users" />
       <End Role="EventMember" EntitySet="EventMembers" />
@@ -23,9 +20,17 @@
       <End Role="Event" EntitySet="Events" />
       <End Role="EventMember" EntitySet="EventMembers" />
     </AssociationSet>
-    <AssociationSet Name="EventMemberRSVP" Association="UserDatabaseModel1.Store.EventMemberRSVP">
-      <End Role="EventMember" EntitySet="EventMembers" />
-      <End Role="RSVP" EntitySet="RSVPs" />
+    <AssociationSet Name="EventEmail" Association="UserDatabaseModel1.Store.EventEmail">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="Email" EntitySet="Emails" />
+    </AssociationSet>
+    <AssociationSet Name="EventComments" Association="UserDatabaseModel1.Store.EventComments">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="LikesEvent" Association="UserDatabaseModel1.Store.LikesEvent">
+      <End Role="Likes" EntitySet="Likes" />
+      <End Role="Event" EntitySet="Events" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
@@ -56,16 +61,8 @@
     <Property Name="ContactPerson" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ContactDetails" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserUserId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="EventReports">
-    <Key>
-      <PropertyRef Name="EventReportId" />
-    </Key>
-    <Property Name="EventReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EventName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ReportDescription" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ReportMedia" Type="bit" Nullable="true" />
-    <Property Name="Event_EventId" Type="int" Nullable="false" />
+    <Property Name="LikeCount" Type="bigint" Nullable="false" />
+    <Property Name="DislikeCount" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="EventMembers">
     <Key>
@@ -75,28 +72,33 @@
     <Property Name="UserUserId" Type="int" Nullable="false" />
     <Property Name="EventEventId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="RSVPs">
+  <EntityType Name="Comments">
     <Key>
-      <PropertyRef Name="RSVPId" />
+      <PropertyRef Name="CommentId" />
     </Key>
-    <Property Name="RSVPId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RSVPStatus" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="NumOfGuests" Type="bigint" Nullable="false" />
-    <Property Name="EventMemberEventEventId" Type="int" Nullable="false" />
-    <Property Name="EventMemberUserUserId" Type="int" Nullable="false" />
+    <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CDateTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EventEventId" Type="int" Nullable="true" />
   </EntityType>
-  <Association Name="EventEventReport">
-    <End Role="Event" Type="UserDatabaseModel1.Store.Events" Multiplicity="1" />
-    <End Role="EventReport" Type="UserDatabaseModel1.Store.EventReports" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Event">
-        <PropertyRef Name="EventId" />
-      </Principal>
-      <Dependent Role="EventReport">
-        <PropertyRef Name="Event_EventId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="Emails">
+    <Key>
+      <PropertyRef Name="EmailId" />
+    </Key>
+    <Property Name="EmailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ToEmail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contents" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EventEventId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Likes">
+    <Key>
+      <PropertyRef Name="LikeId" />
+    </Key>
+    <Property Name="LikeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsLike" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Event_EventId" Type="int" Nullable="true" />
+  </EntityType>
   <Association Name="UserEventMember">
     <End Role="User" Type="UserDatabaseModel1.Store.Users" Multiplicity="1" />
     <End Role="EventMember" Type="UserDatabaseModel1.Store.EventMembers" Multiplicity="*" />
@@ -121,17 +123,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="EventMemberRSVP">
-    <End Role="EventMember" Type="UserDatabaseModel1.Store.EventMembers" Multiplicity="1" />
-    <End Role="RSVP" Type="UserDatabaseModel1.Store.RSVPs" Multiplicity="*" />
+  <Association Name="EventEmail">
+    <End Role="Event" Type="UserDatabaseModel1.Store.Events" Multiplicity="1" />
+    <End Role="Email" Type="UserDatabaseModel1.Store.Emails" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="EventMember">
-        <PropertyRef Name="EventEventId" />
-        <PropertyRef Name="UserUserId" />
+      <Principal Role="Event">
+        <PropertyRef Name="EventId" />
       </Principal>
-      <Dependent Role="RSVP">
-        <PropertyRef Name="EventMemberEventEventId" />
-        <PropertyRef Name="EventMemberUserUserId" />
+      <Dependent Role="Email">
+        <PropertyRef Name="EventEventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EventComments">
+    <End Role="Event" Type="UserDatabaseModel1.Store.Events" Multiplicity="0..1" />
+    <End Role="Comments" Type="UserDatabaseModel1.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="EventEventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LikesEvent">
+    <End Role="Likes" Type="UserDatabaseModel1.Store.Likes" Multiplicity="*" />
+    <End Role="Event" Type="UserDatabaseModel1.Store.Events" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="Likes">
+        <PropertyRef Name="Event_EventId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -142,11 +166,6 @@
         <EntityContainer Name="UserDatabaseModel1Container" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="UserDatabaseModel1.User" />
           <EntitySet Name="Events" EntityType="UserDatabaseModel1.Event" />
-          <EntitySet Name="EventReports" EntityType="UserDatabaseModel1.EventReport" />
-          <AssociationSet Name="EventEventReport" Association="UserDatabaseModel1.EventEventReport">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="EventReport" EntitySet="EventReports" />
-          </AssociationSet>
           <EntitySet Name="EventMembers" EntityType="UserDatabaseModel1.EventMember" />
           <AssociationSet Name="UserEventMember" Association="UserDatabaseModel1.UserEventMember">
             <End Role="User" EntitySet="Users" />
@@ -156,10 +175,20 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="EventMember" EntitySet="EventMembers" />
           </AssociationSet>
-          <EntitySet Name="RSVPs" EntityType="UserDatabaseModel1.RSVP" />
-          <AssociationSet Name="EventMemberRSVP" Association="UserDatabaseModel1.EventMemberRSVP">
-            <End Role="EventMember" EntitySet="EventMembers" />
-            <End Role="RSVP" EntitySet="RSVPs" />
+          <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Comments" />
+          <EntitySet Name="Emails" EntityType="UserDatabaseModel1.Email" />
+          <AssociationSet Name="EventEmail" Association="UserDatabaseModel1.EventEmail">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="EventComments" Association="UserDatabaseModel1.EventComments">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <EntitySet Name="Likes" EntityType="UserDatabaseModel1.Likes" />
+          <AssociationSet Name="LikesEvent" Association="UserDatabaseModel1.LikesEvent">
+            <End Role="Likes" EntitySet="Likes" />
+            <End Role="Event" EntitySet="Events" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -191,23 +220,13 @@
           <Property Name="ContactPerson" Type="String" Nullable="false" />
           <Property Name="ContactDetails" Type="String" Nullable="false" />
           <Property Name="UserUserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EventReport" Relationship="UserDatabaseModel1.EventEventReport" FromRole="Event" ToRole="EventReport" />
           <NavigationProperty Name="EventMembers" Relationship="UserDatabaseModel1.EventEventMember" FromRole="Event" ToRole="EventMember" />
+          <Property Name="LikeCount" Type="Int64" Nullable="false" />
+          <Property Name="DislikeCount" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Emails" Relationship="UserDatabaseModel1.EventEmail" FromRole="Event" ToRole="Email" />
+          <NavigationProperty Name="Comments" Relationship="UserDatabaseModel1.EventComments" FromRole="Event" ToRole="Comments" />
+          <NavigationProperty Name="Likes" Relationship="UserDatabaseModel1.LikesEvent" FromRole="Event" ToRole="Likes" />
         </EntityType>
-        <EntityType Name="EventReport">
-          <Key>
-            <PropertyRef Name="EventReportId" />
-          </Key>
-          <Property Name="EventReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EventName" Type="String" Nullable="false" />
-          <Property Name="ReportDescription" Type="String" Nullable="false" />
-          <Property Name="ReportMedia" Type="Boolean" Nullable="true" />
-          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventEventReport" FromRole="EventReport" ToRole="Event" />
-        </EntityType>
-        <Association Name="EventEventReport">
-          <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="1" />
-          <End Type="UserDatabaseModel1.EventReport" Role="EventReport" Multiplicity="0..1" />
-        </Association>
         <EntityType Name="EventMember">
           <Key>
             <PropertyRef Name="EventEventId" />
@@ -217,7 +236,6 @@
           <Property Name="UserUserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventEventMember" FromRole="EventMember" ToRole="Event" />
           <Property Name="EventEventId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="RSVPs" Relationship="UserDatabaseModel1.EventMemberRSVP" FromRole="EventMember" ToRole="RSVP" />
         </EntityType>
         <Association Name="UserEventMember">
           <End Type="UserDatabaseModel1.User" Role="User" Multiplicity="1" />
@@ -243,30 +261,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="RSVP">
+        <EntityType Name="Comments">
           <Key>
-            <PropertyRef Name="RSVPId" />
+            <PropertyRef Name="CommentId" />
           </Key>
-          <Property Name="RSVPId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RSVPStatus" Type="String" Nullable="false" />
-          <Property Name="NumOfGuests" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="EventMember" Relationship="UserDatabaseModel1.EventMemberRSVP" FromRole="RSVP" ToRole="EventMember" />
-          <Property Name="EventMemberEventEventId" Type="Int32" Nullable="false" />
-          <Property Name="EventMemberUserUserId" Type="Int32" Nullable="false" />
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CDescription" Type="String" Nullable="false" />
+          <Property Name="CDateTime" Type="String" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventComments" FromRole="Comments" ToRole="Event" />
+          <Property Name="EventEventId" Type="Int32" Nullable="true" />
         </EntityType>
-        <Association Name="EventMemberRSVP">
-          <End Type="UserDatabaseModel1.EventMember" Role="EventMember" Multiplicity="1" />
-          <End Type="UserDatabaseModel1.RSVP" Role="RSVP" Multiplicity="*" />
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="EmailId" />
+          </Key>
+          <Property Name="EmailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ToEmail" Type="String" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="Contents" Type="String" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventEmail" FromRole="Email" ToRole="Event" />
+          <Property Name="EventEventId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="EventEmail">
+          <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="1" />
+          <End Type="UserDatabaseModel1.Email" Role="Email" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EventMember">
-              <PropertyRef Name="EventEventId" />
-              <PropertyRef Name="UserUserId" />
+            <Principal Role="Event">
+              <PropertyRef Name="EventId" />
             </Principal>
-            <Dependent Role="RSVP">
-              <PropertyRef Name="EventMemberEventEventId" />
-              <PropertyRef Name="EventMemberUserUserId" />
+            <Dependent Role="Email">
+              <PropertyRef Name="EventEventId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="EventComments">
+          <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="0..1" />
+          <End Type="UserDatabaseModel1.Comments" Role="Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="EventEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="LikeId" />
+          </Key>
+          <Property Name="LikeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsLike" Type="String" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.LikesEvent" FromRole="Likes" ToRole="Event" />
+        </EntityType>
+        <Association Name="LikesEvent">
+          <End Type="UserDatabaseModel1.Likes" Role="Likes" Multiplicity="*" />
+          <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="0..1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -302,16 +352,8 @@
           <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
           <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
           <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EventReports">
-      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.EventReport)">
-        <MappingFragment StoreEntitySet="EventReports">
-          <ScalarProperty Name="EventReportId" ColumnName="EventReportId" />
-          <ScalarProperty Name="EventName" ColumnName="EventName" />
-          <ScalarProperty Name="ReportDescription" ColumnName="ReportDescription" />
-          <ScalarProperty Name="ReportMedia" ColumnName="ReportMedia" />
+          <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
+          <ScalarProperty Name="DislikeCount" ColumnName="DislikeCount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -323,24 +365,43 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="RSVPs">
-      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.RSVP)">
-        <MappingFragment StoreEntitySet="RSVPs">
-          <ScalarProperty Name="RSVPId" ColumnName="RSVPId" />
-          <ScalarProperty Name="RSVPStatus" ColumnName="RSVPStatus" />
-          <ScalarProperty Name="NumOfGuests" ColumnName="NumOfGuests" />
-          <ScalarProperty Name="EventMemberEventEventId" ColumnName="EventMemberEventEventId" />
-          <ScalarProperty Name="EventMemberUserUserId" ColumnName="EventMemberUserUserId" />
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Comments)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <ScalarProperty Name="CDescription" ColumnName="CDescription" />
+          <ScalarProperty Name="CDateTime" ColumnName="CDateTime" />
+          <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="EventEventReport" TypeName="UserDatabaseModel1.EventEventReport" StoreEntitySet="EventReports">
+    <EntitySetMapping Name="Emails">
+      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Email)">
+        <MappingFragment StoreEntitySet="Emails">
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Contents" ColumnName="Contents" />
+          <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Likes">
+      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Likes)">
+        <MappingFragment StoreEntitySet="Likes">
+          <ScalarProperty Name="LikeId" ColumnName="LikeId" />
+          <ScalarProperty Name="IsLike" ColumnName="IsLike" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="LikesEvent" TypeName="UserDatabaseModel1.LikesEvent" StoreEntitySet="Likes">
       <EndProperty Name="Event">
         <ScalarProperty Name="EventId" ColumnName="Event_EventId" />
       </EndProperty>
-      <EndProperty Name="EventReport">
-        <ScalarProperty Name="EventReportId" ColumnName="EventReportId" />
+      <EndProperty Name="Likes">
+        <ScalarProperty Name="LikeId" ColumnName="LikeId" />
       </EndProperty>
+      <Condition ColumnName="Event_EventId" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

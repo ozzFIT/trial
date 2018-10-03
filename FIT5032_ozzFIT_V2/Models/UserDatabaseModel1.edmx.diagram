@@ -4,11 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="993ec324f8d1491585ae15c23ec106ad" Name="Diagram1" >
+      <Diagram DiagramId="993ec324f8d1491585ae15c23ec106ad" Name="Diagram1" ZoomLevel="100" >
         <EntityTypeShape EntityType="UserDatabaseModel1.User" Width="1.5" PointX="7.375" PointY="3.5" />
         <EntityTypeShape EntityType="UserDatabaseModel1.Event" Width="1.5" PointX="3.5" PointY="3.5" />
-        <EntityTypeShape EntityType="UserDatabaseModel1.EventReport" Width="1.5" PointX="0.5" PointY="4" />
-        <AssociationConnector Association="UserDatabaseModel1.EventEventReport" />
         <EntityTypeShape EntityType="UserDatabaseModel1.EventMember" Width="1.5" PointX="5.25" PointY="0.5" />
         <AssociationConnector Association="UserDatabaseModel1.UserEventMember" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.125" PointY="3.5" />
@@ -16,9 +14,12 @@
           <ConnectorPoint PointX="6.75" PointY="1.4901432291666665" />
         </AssociationConnector>
         <AssociationConnector Association="UserDatabaseModel1.EventEventMember" />
-        <EntityTypeShape EntityType="UserDatabaseModel1.RSVP" Width="1.5" PointX="1.5" PointY="0.5" />
-        <AssociationConnector Association="UserDatabaseModel1.EventMemberRSVP" />
-        <EntityTypeShape EntityType="UserDatabaseModel1.Entity1" Width="1.5" PointX="11.125" PointY="3.625" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Comments" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Email" Width="1.5" PointX="0.875" PointY="3.625" />
+        <AssociationConnector Association="UserDatabaseModel1.EventEmail" />
+        <AssociationConnector Association="UserDatabaseModel1.EventComments" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Likes" Width="1.5" PointX="6.625" PointY="8" />
+        <AssociationConnector Association="UserDatabaseModel1.LikesEvent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

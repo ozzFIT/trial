@@ -1,0 +1,113 @@
+﻿@model FIT5032_ozzFIT_V2.Models.Comments
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Event @ViewBag.EventName </h2>
+
+<div class="panel panel-primary">
+
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+
+            <h5>
+                <i class="fa fa-link" aria-hidden="true"></i>
+
+            </h5>
+
+            <hr />
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Comment </label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        @Html.TextAreaFor(m => m.CDescription, new { rows = "20", style = "resize:none;width:400px;", placeholder = Html.DisplayNameFor(m => m.CDescription), @class = "form-control input-lg textarea-editor" })
+                        @Html.ValidationMessageFor(m => m.CDescription)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add Comment" class="btn btn-default" />
+                </div>
+
+            </div>
+            @*<div class="form-horizontal">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CDescription, new { @class = "col-lg-2 control-label" })
+                        <div class="col-lg-9">
+                            @Html.TextAreaFor(model => model.CDescription, new { @class = "form-control", @row = 5 })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-9"></div>
+                        <div class="col-lg-3">
+                            <button class="btn btn-success" id="btnSubmit" type="submit">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>*@
+        }
+    </div>
+</div>
+
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Comments</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.CDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CDateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventEventId, "EventEventId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("EventEventId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EventEventId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>*@
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+    @Scripts.Render("~/bundles/Script-custom-editor")
+
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+}
