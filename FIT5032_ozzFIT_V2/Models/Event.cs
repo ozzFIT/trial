@@ -20,7 +20,6 @@ namespace FIT5032_ozzFIT_V2.Models
             this.EventMembers = new HashSet<EventMember>();
             this.Emails = new HashSet<Email>();
             this.Comments = new HashSet<Comments>();
-            this.Likes = new HashSet<Likes>();
         }
     
         public int EventId { get; set; }
@@ -31,9 +30,7 @@ namespace FIT5032_ozzFIT_V2.Models
         public System.DateTime EndDateTime { get; set; }
         public string ContactPerson { get; set; }
         public string ContactDetails { get; set; }
-        public int UserUserId { get; set; }
-        public long LikeCount { get; set; }
-        public long DislikeCount { get; set; }
+        public long Likes { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMember> EventMembers { get; set; }
@@ -41,7 +38,5 @@ namespace FIT5032_ozzFIT_V2.Models
         public virtual ICollection<Email> Emails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Likes> Likes { get; set; }
     }
 }

@@ -9,9 +9,8 @@
     <EntitySet Name="Users" EntityType="UserDatabaseModel1.Store.Users" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Events" EntityType="UserDatabaseModel1.Store.Events" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventMembers" EntityType="UserDatabaseModel1.Store.EventMembers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Store.Comments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Emails" EntityType="UserDatabaseModel1.Store.Emails" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Likes" EntityType="UserDatabaseModel1.Store.Likes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Store.Comments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserEventMember" Association="UserDatabaseModel1.Store.UserEventMember">
       <End Role="User" EntitySet="Users" />
       <End Role="EventMember" EntitySet="EventMembers" />
@@ -28,10 +27,6 @@
       <End Role="Event" EntitySet="Events" />
       <End Role="Comments" EntitySet="Comments" />
     </AssociationSet>
-    <AssociationSet Name="LikesEvent" Association="UserDatabaseModel1.Store.LikesEvent">
-      <End Role="Likes" EntitySet="Likes" />
-      <End Role="Event" EntitySet="Events" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
     <Key>
@@ -46,7 +41,7 @@
     <Property Name="Height" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Weight" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Gender" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DateOfBirth" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateOfBirth" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="Events">
     <Key>
@@ -60,9 +55,7 @@
     <Property Name="EndDateTime" Type="datetime" Nullable="false" />
     <Property Name="ContactPerson" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ContactDetails" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserUserId" Type="int" Nullable="false" />
-    <Property Name="LikeCount" Type="bigint" Nullable="false" />
-    <Property Name="DislikeCount" Type="bigint" Nullable="false" />
+    <Property Name="Likes" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="EventMembers">
     <Key>
@@ -71,15 +64,6 @@
     </Key>
     <Property Name="UserUserId" Type="int" Nullable="false" />
     <Property Name="EventEventId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Comments">
-    <Key>
-      <PropertyRef Name="CommentId" />
-    </Key>
-    <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CDescription" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CDateTime" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="EventEventId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Emails">
     <Key>
@@ -91,13 +75,14 @@
     <Property Name="Contents" Type="nvarchar(max)" Nullable="false" />
     <Property Name="EventEventId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Likes">
+  <EntityType Name="Comments">
     <Key>
-      <PropertyRef Name="LikeId" />
+      <PropertyRef Name="CId" />
     </Key>
-    <Property Name="LikeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IsLike" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Event_EventId" Type="int" Nullable="true" />
+    <Property Name="CId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CDateTime" Type="datetime" Nullable="false" />
+    <Property Name="EventEventId" Type="int" Nullable="true" />
   </EntityType>
   <Association Name="UserEventMember">
     <End Role="User" Type="UserDatabaseModel1.Store.Users" Multiplicity="1" />
@@ -147,18 +132,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="LikesEvent">
-    <End Role="Likes" Type="UserDatabaseModel1.Store.Likes" Multiplicity="*" />
-    <End Role="Event" Type="UserDatabaseModel1.Store.Events" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Event">
-        <PropertyRef Name="EventId" />
-      </Principal>
-      <Dependent Role="Likes">
-        <PropertyRef Name="Event_EventId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -175,20 +148,15 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="EventMember" EntitySet="EventMembers" />
           </AssociationSet>
-          <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Comments" />
           <EntitySet Name="Emails" EntityType="UserDatabaseModel1.Email" />
           <AssociationSet Name="EventEmail" Association="UserDatabaseModel1.EventEmail">
             <End Role="Event" EntitySet="Events" />
             <End Role="Email" EntitySet="Emails" />
           </AssociationSet>
+          <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Comments" />
           <AssociationSet Name="EventComments" Association="UserDatabaseModel1.EventComments">
             <End Role="Event" EntitySet="Events" />
             <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <EntitySet Name="Likes" EntityType="UserDatabaseModel1.Likes" />
-          <AssociationSet Name="LikesEvent" Association="UserDatabaseModel1.LikesEvent">
-            <End Role="Likes" EntitySet="Likes" />
-            <End Role="Event" EntitySet="Events" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
@@ -204,7 +172,7 @@
           <Property Name="Height" Type="String" Nullable="true" />
           <Property Name="Weight" Type="String" Nullable="true" />
           <Property Name="Gender" Type="String" Nullable="false" />
-          <Property Name="DateOfBirth" Type="String" Nullable="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="true" />
           <NavigationProperty Name="EventMembers" Relationship="UserDatabaseModel1.UserEventMember" FromRole="User" ToRole="EventMember" />
         </EntityType>
         <EntityType Name="Event">
@@ -219,13 +187,10 @@
           <Property Name="EndDateTime" Type="DateTime" Nullable="false" />
           <Property Name="ContactPerson" Type="String" Nullable="false" />
           <Property Name="ContactDetails" Type="String" Nullable="false" />
-          <Property Name="UserUserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EventMembers" Relationship="UserDatabaseModel1.EventEventMember" FromRole="Event" ToRole="EventMember" />
-          <Property Name="LikeCount" Type="Int64" Nullable="false" />
-          <Property Name="DislikeCount" Type="Int64" Nullable="false" />
+          <Property Name="Likes" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Emails" Relationship="UserDatabaseModel1.EventEmail" FromRole="Event" ToRole="Email" />
           <NavigationProperty Name="Comments" Relationship="UserDatabaseModel1.EventComments" FromRole="Event" ToRole="Comments" />
-          <NavigationProperty Name="Likes" Relationship="UserDatabaseModel1.LikesEvent" FromRole="Event" ToRole="Likes" />
         </EntityType>
         <EntityType Name="EventMember">
           <Key>
@@ -261,16 +226,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Comments">
-          <Key>
-            <PropertyRef Name="CommentId" />
-          </Key>
-          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CDescription" Type="String" Nullable="false" />
-          <Property Name="CDateTime" Type="String" Nullable="false" />
-          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventComments" FromRole="Comments" ToRole="Event" />
-          <Property Name="EventEventId" Type="Int32" Nullable="true" />
-        </EntityType>
         <EntityType Name="Email">
           <Key>
             <PropertyRef Name="EmailId" />
@@ -294,6 +249,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="CId" />
+          </Key>
+          <Property Name="CId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CDescription" Type="String" Nullable="false" />
+          <Property Name="CDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.EventComments" FromRole="Comments" ToRole="Event" />
+          <Property Name="EventEventId" Type="Int32" Nullable="true" />
+        </EntityType>
         <Association Name="EventComments">
           <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="0..1" />
           <End Type="UserDatabaseModel1.Comments" Role="Comments" Multiplicity="*" />
@@ -305,18 +270,6 @@
               <PropertyRef Name="EventEventId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Likes">
-          <Key>
-            <PropertyRef Name="LikeId" />
-          </Key>
-          <Property Name="LikeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IsLike" Type="String" Nullable="false" />
-          <NavigationProperty Name="Event" Relationship="UserDatabaseModel1.LikesEvent" FromRole="Likes" ToRole="Event" />
-        </EntityType>
-        <Association Name="LikesEvent">
-          <End Type="UserDatabaseModel1.Likes" Role="Likes" Multiplicity="*" />
-          <End Type="UserDatabaseModel1.Event" Role="Event" Multiplicity="0..1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -351,9 +304,7 @@
           <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
           <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
           <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
-          <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
-          <ScalarProperty Name="LikeCount" ColumnName="LikeCount" />
-          <ScalarProperty Name="DislikeCount" ColumnName="DislikeCount" />
+          <ScalarProperty Name="Likes" ColumnName="Likes" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -362,16 +313,6 @@
         <MappingFragment StoreEntitySet="EventMembers">
           <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
           <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Comments">
-      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Comments)">
-        <MappingFragment StoreEntitySet="Comments">
-          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
-          <ScalarProperty Name="CDescription" ColumnName="CDescription" />
-          <ScalarProperty Name="CDateTime" ColumnName="CDateTime" />
-          <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -386,23 +327,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Likes">
-      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Likes)">
-        <MappingFragment StoreEntitySet="Likes">
-          <ScalarProperty Name="LikeId" ColumnName="LikeId" />
-          <ScalarProperty Name="IsLike" ColumnName="IsLike" />
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Comments)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="CId" ColumnName="CId" />
+          <ScalarProperty Name="CDescription" ColumnName="CDescription" />
+          <ScalarProperty Name="CDateTime" ColumnName="CDateTime" />
+          <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="LikesEvent" TypeName="UserDatabaseModel1.LikesEvent" StoreEntitySet="Likes">
-      <EndProperty Name="Event">
-        <ScalarProperty Name="EventId" ColumnName="Event_EventId" />
-      </EndProperty>
-      <EndProperty Name="Likes">
-        <ScalarProperty Name="LikeId" ColumnName="LikeId" />
-      </EndProperty>
-      <Condition ColumnName="Event_EventId" IsNull="false" />
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

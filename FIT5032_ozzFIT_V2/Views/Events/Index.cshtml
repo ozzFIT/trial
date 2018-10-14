@@ -34,57 +34,78 @@
             @Html.DisplayNameFor(model => model.ContactDetails)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserUserId)
+            @Html.DisplayNameFor(model => model.Likes)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LikeCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DislikeCount)
-        </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.EventName, "Details", new { id = item.EventId })
-            @*@Html.DisplayFor(modelItem => item.EventName)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactDetails)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LikeCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DislikeCount)
-        </td>
-        <td>
-            @Html.ActionLink("Comment", "Create", "Comments") |
-            @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.EventName, "Details", new { id = item.EventId })
+                @*@Html.DisplayFor(modelItem => item.EventName)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactPerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Likes)
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-thumbs-up" id="like"></span>
+                </div>
+                @Html.ActionLink("Like", "Like", new { id = item.EventId })
+            </td>
+
+            <td>
+                @*@Html.ActionLink("Send Email Notification", "Create", "Emails") |*@
+                <a href="/Emails/Create?id=@item.EventId">Send Email Notification</a> |
+                <a href="/Comments/Create?id=@item.EventId">Comments</a> |
+                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    <script type="text/javascript">
+       
+            $("#like").click(function() 
+                {
+
+                    @Html.ActionLink("Like", "Like", new { id = EventId })
+
+                });
+            $.validator.addMethod('date', function (value, element) {
+                var d = new Date;
+                //return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                return d.toLocaleDateString('en-GB');
+            });
+            
+       
+    </script>
+}*@

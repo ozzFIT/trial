@@ -5,14 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2> Event @ViewBag.EventName </h2>
+<h2>Create comment for @ViewBag.EventEventName</h2>
+
 
 <div class="panel panel-primary">
 
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            
 
+        @Html.TextBoxFor(m => m.EventEventId, new { @hidden="hidden"})
+                
             <h5>
                 <i class="fa fa-link" aria-hidden="true"></i>
 
@@ -58,7 +62,6 @@
     </div>
 </div>
 
-
 @*@using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -96,12 +99,13 @@
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
-        </div>*@
-}
+        </div>
+    }*@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

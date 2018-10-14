@@ -68,37 +68,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserUserId)
+            @Html.DisplayNameFor(model => model.Likes)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserUserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LikeCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LikeCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DislikeCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DislikeCount)
+            @Html.DisplayFor(model => model.Likes)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Comment", "Create", "Comments") |
+    <a href="/Comments/Create?id=@Model.EventId">Comments</a>
+    @*@Html.ActionLink("Comment", "Create", "Comments", new { id = Model.EventId })*@ |
     @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
-
-@*Display comments*@
-

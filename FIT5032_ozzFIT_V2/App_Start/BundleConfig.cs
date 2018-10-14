@@ -10,7 +10,8 @@ namespace FIT5032_ozzFIT_V2
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/moment.js"));
+                        "~/Scripts/moment.js",
+                        "~/Scripts/moment-with-locales.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,13 +24,14 @@ namespace FIT5032_ozzFIT_V2
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-datepicker.js",
+                      "~/Scripts/bootstrap-datetimepicker.js",
                       "~/Scripts/bootstrap-wysiwyg.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/bootstrap-datepicker.css"));
+                      "~/Content/bootstrap-datetimepicker.min.css"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
                        "~/Scripts/lib/jquery.min.js",

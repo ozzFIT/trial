@@ -33,14 +33,22 @@
             @Html.DisplayFor(modelItem => item.CDateTime)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Event.EventName)
+            <a href="/Events/Details?id=@item.EventEventId">@item.EventEventId</a>
+            @*@Html.ActionLink(item.EventEventId, "Details", new { id = item.EventEventId })*@
+            @*@Html.DisplayFor(modelItem => item.EventEventId)*@
+            @*@ViewBag.EventEventName*@
+            @* @Html.ActionLink(item.Event.EventName, "Details", "Events", new { id = item.EventEventId })*@
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CommentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CommentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CommentId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.CId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CId })
         </td>
     </tr>
 }
 
 </table>
+
+<div>
+    @Html.ActionLink("Back to event", "Index", "Events")
+</div>

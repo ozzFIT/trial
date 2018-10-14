@@ -183,7 +183,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
                         newuser.Weight = model.Weight;
                         newuser.Gender = model.userGender.ToString();
                         newuser.ZipCode = Convert.ToInt16(model.ZipCode);
-                        newuser.DateOfBirth = model.Dob.ToString();
+                        newuser.DateOfBirth = Convert.ToDateTime(model.DateOfBirth);
                         db.Users.Add(newuser);
                         db.SaveChanges();
                     }

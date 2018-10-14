@@ -38,7 +38,12 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            return View();
+
+            Event @event = new Event();
+            @event.Likes = 0;
+            
+
+            return View(@event);
         }
 
         // POST: Events/Create
@@ -46,7 +51,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId,LikeCount,DislikeCount")] Event @event)
+        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,LikeCount,DislikeCount")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +83,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,UserUserId,LikeCount,DislikeCount")] Event @event)
+        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,LikeCount,DislikeCount")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -122,6 +127,15 @@ namespace FIT5032_ozzFIT_V2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public ActionResult Like(int id)
+        {
+            Event updateLike = db.Events.ToList().Find(u => u.EventId == id);
+            updateLike.Likes += 1;
+            db.SaveChanges();
+             return RedirectToAction("Index");
         }
     }
 }

@@ -11,14 +11,12 @@ namespace FIT5032_ozzFIT_V2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.Mvc;
-
+    
     public partial class Comments
     {
-        public int CommentId { get; set; }
-        [AllowHtml]
+        public int CId { get; set; }
         public string CDescription { get; set; }
-        public string CDateTime { get; set; }
+        public System.DateTime CDateTime { get; set; }
         public Nullable<int> EventEventId { get; set; }
     
         public virtual Event Event { get; set; }

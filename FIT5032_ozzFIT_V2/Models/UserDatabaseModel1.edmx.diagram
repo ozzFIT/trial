@@ -4,22 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="993ec324f8d1491585ae15c23ec106ad" Name="Diagram1" ZoomLevel="100" >
+      <Diagram DiagramId="993ec324f8d1491585ae15c23ec106ad" Name="Diagram1" ZoomLevel="94" >
         <EntityTypeShape EntityType="UserDatabaseModel1.User" Width="1.5" PointX="7.375" PointY="3.5" />
         <EntityTypeShape EntityType="UserDatabaseModel1.Event" Width="1.5" PointX="3.5" PointY="3.5" />
         <EntityTypeShape EntityType="UserDatabaseModel1.EventMember" Width="1.5" PointX="5.25" PointY="0.5" />
         <AssociationConnector Association="UserDatabaseModel1.UserEventMember" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.125" PointY="3.5" />
-          <ConnectorPoint PointX="8.125" PointY="1.4901432291666665" />
-          <ConnectorPoint PointX="6.75" PointY="1.4901432291666665" />
+          <ConnectorPoint PointX="8.125" PointY="1.3939925130208333" />
+          <ConnectorPoint PointX="6.75" PointY="1.3939925130208333" />
         </AssociationConnector>
         <AssociationConnector Association="UserDatabaseModel1.EventEventMember" />
-        <EntityTypeShape EntityType="UserDatabaseModel1.Comments" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="UserDatabaseModel1.Email" Width="1.5" PointX="0.875" PointY="3.625" />
         <AssociationConnector Association="UserDatabaseModel1.EventEmail" />
+        <EntityTypeShape EntityType="UserDatabaseModel1.Comments" Width="1.5" PointX="1" PointY="7.375" />
         <AssociationConnector Association="UserDatabaseModel1.EventComments" />
-        <EntityTypeShape EntityType="UserDatabaseModel1.Likes" Width="1.5" PointX="6.625" PointY="8" />
-        <AssociationConnector Association="UserDatabaseModel1.LikesEvent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

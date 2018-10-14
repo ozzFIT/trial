@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FIT5032_ozzFIT_V2.Models
@@ -120,8 +121,8 @@ namespace FIT5032_ozzFIT_V2.Models
       
         [Required(ErrorMessage = "Date of birth is required")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
-        public System.DateTime Dob { get; set; }
+        [DisplayFormat(DataFormatString = "{0:mm/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateOfBirth { get; set; }
     }
 
     public enum Gender

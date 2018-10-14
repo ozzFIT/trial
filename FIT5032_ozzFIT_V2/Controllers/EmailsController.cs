@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FIT5032_ozzFIT_V2.Models;
+using FIT5032_ozzFIT_V2.Utils;
 
 namespace FIT5032_ozzFIT_V2.Controllers
 {
@@ -37,10 +38,16 @@ namespace FIT5032_ozzFIT_V2.Controllers
         }
 
         // GET: Emails/Create
-        public ActionResult Create()
+        public ActionResult Create(string id)
         {
-            ViewBag.EventEventId = new SelectList(db.Events, "EventId", "EventName");
-            return View();
+            int eventId = int.Parse(id);
+
+            Email email = new Email();
+            email.EventEventId = eventId;
+            ViewBag.EventEventName = db.Events.SingleOrDefault(x => x.EventId == eventId).EventName;
+            ViewBag.Content = db.Events.SingleOrDefault(x => x.EventId == eventId).EventDescription;
+            //ViewBag.EventEventId = new SelectList(db.Events, "EventId", "EventName");
+            return View(email);
         }
 
         // POST: Emails/Create
@@ -52,9 +59,29 @@ namespace FIT5032_ozzFIT_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Emails.Add(email);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //db.Emails.Add(email);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+
+                try
+                {
+                    String toEmail = email.ToEmail;
+                    String subject = email.Subject;
+                    String contents = email.Contents;
+
+                    EmailSender es = new EmailSender();
+                    es.Send(toEmail, subject, contents);
+
+                    ViewBag.Result = "Email has been sent.";
+
+                    ModelState.Clear();
+
+                    //return View(new Email());
+                }
+                catch
+                {
+                    return View();
+                }
             }
 
             ViewBag.EventEventId = new SelectList(db.Events, "EventId", "EventName", email.EventEventId);

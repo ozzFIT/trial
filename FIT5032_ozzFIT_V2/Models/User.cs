@@ -29,7 +29,7 @@ namespace FIT5032_ozzFIT_V2.Models
         public string Height { get; set; }
         public string Weight { get; set; }
         public string Gender { get; set; }
-        public string DateOfBirth { get; set; }
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMember> EventMembers { get; set; }

@@ -5,125 +5,199 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+<section id="Register">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Create a new account.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ZipCode, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Height, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
+                <br />
+                <h6> Inches </h6>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Weight, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Weight, new { @class = "form-control" })
+                <br />
+                <h6> Kilo Grams </h6>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.userGender, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("userGender",new SelectList(Enum.GetValues(typeof(FIT5032_ozzFIT_V2.Models.Gender))),
+                                                                                "Select Gender",
+                                                                                new { @class = "form-control" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.Dob, new { @class = "col-md-2 control-label" })
+                <div class= "col-md-10" id="DateOfBirth">
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ZipCode, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Height, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
-            <br />
-            <h6> Inches </h6>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Weight, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Weight, new { @class = "form-control" })
-            <br />
-            <h6> Kilo Grams </h6>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.userGender, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownList("userGender",
-                                    new SelectList(Enum.GetValues(typeof(FIT5032_ozzFIT_V2.Models.Gender))),
-                                    "Select Gender",
-                                    new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Dob, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10" id="DateOfBirth">
-            @Html.TextBoxFor(m => m.Dob, new { @class = "form-control" })
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
+                    @Html.TextBoxFor(m => m.Dob, new { @class = "form-control" })
 
-}
+                    @Html.EditorFor(Function(model) model.DOB, New With {.htmlAttributes = New With {.class = "form-control datecontrol", .PlaceHolder = "Enter Date of Birth"}})
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
 
-    @Scripts.Render("~/bundles/bootstrap")
-    <script type="text/javascript">
-        var firstOpen = true;
-        $(function () {
-            $("#DateOfBirth").datepicker({
-                //format: 'dd/mm/yyyy',
-                //inline: true,
-                //sideBySide: true,
-                //orientation: 'left bottom',
-                // if (firstOpen = true) {
+
+                    </div>
+            </div>*@
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.Dob, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    <div class="input-group" id="DateOfBirth">
+                        @Html.TextBoxFor(m => m.Dob, new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+
+                <div class="input-group" id="DateOfBirth">
+                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", placeholder = "mm/dd/yyyy" })
                    
-                //    firstOpen = false;
-                //}
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayHighlight: true
-            });
 
-            $("#DateOfBirth").on("dp.change", function (e) {
-                $('#DateOfBirth').data("DateOfBirth").maxDate(e.date);
-            });
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+                </div>
 
-            $('#DateOfBirth').on('changeDate', function (selected) {
-                $('#DateOfBirth').datepicker('setDate', selected.date);
-                $(this).datepicker('hide');
+                @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Register" />
+            </div>
+        </div>
+
+    }
+</section>
+    @*@section Scripts {
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/jqueryval")
+
+            @Scripts.Render("~/bundles/bootstrap")
+            <script type="text/javascript">
+                //var firstOpen = false;
+                $(function () {
+                    $("#DateOfBirth").datepicker("hide");
+                    $("#DateOfBirth").datepicker();
+                    //$("#DateOfBirth").datepicker("option", "showOn", "both");
+
+                    $("#DateOfBirth").datepicker({
+                        format: 'mm/dd/yyyy',
+                        inline: true,
+                        autoSize: true,
+                        //sideBySide: true,
+                        //orientation: 'left bottom',
+                        // if (firstOpen = true) {
+
+                        //    firstOpen = false;
+                        //}
+
+                        "autoclose": true,
+                        //todayHighlight: true,
+                        onSelect: function (date) {
+                            $(this).show();
+                        }
+                    });
+
+                    //$("#DateOfBirth").on("dp.change", function (e) {
+                    //    $('#DateOfBirth').data("DateOfBirth").maxDate(e.date);
+                    //});
+
+                    //$('#dateofbirth').on('changedate', function (selected) {
+                    //    $('#dateofbirth').datepicker('setdate', selected.date);
+                    //    $(this).datepicker('hide');
+                    //});
+
+
+
+                });
+            </script>
+            @* @RenderSection("scripts", required: false)
+        }*@
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+        <script type="text/javascript">
+            $(function () {
+                $("#DateOfBirth").datetimepicker(
+                    {
+                        format: 'MM/DD/YYYY',
+                        widgetPositioning: {
+                            horizontal: 'auto',
+                            vertical: 'bottom'
+                        },
+                        minDate: new Date('12/29/1940'),
+                        maxDate: new Date()
+                    });
+                $.validator.addMethod('date', function (value, element) {
+                    var d = new Date;
+                    //return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                    return d.toLocaleDateString('en-GB');
+                });
+                $('#DateOfBirth').datetimepicker('setDate', new Date(08/10/2018));
+                
             });
-        });
-    </script>
-    @* @RenderSection("scripts", required: false)*@
-}
+        </script>
+    }
 
 
 

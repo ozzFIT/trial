@@ -1,8 +1,8 @@
-
+﻿
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/11/2018 13:01:06
+-- Date Created: 10/04/2018 12:37:59
 -- Generated from EDMX file: \\ad.monash.edu\home\User039\aram0008\Desktop\IAD\Assignment\V2\FIT5032_ozzFIT_V2\FIT5032_ozzFIT_V2\Models\UserDatabaseModel1.edmx
 -- --------------------------------------------------
 
@@ -26,9 +26,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EventEmail]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Emails] DROP CONSTRAINT [FK_EventEmail];
 GO
-IF OBJECT_ID(N'[dbo].[FK_EventComments]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Comments] DROP CONSTRAINT [FK_EventComments];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -46,9 +43,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Emails]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Emails];
 GO
-IF OBJECT_ID(N'[dbo].[Comments]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Comments];
-GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -65,7 +59,7 @@ CREATE TABLE [dbo].[Users] (
     [Height] nvarchar(max)  NULL,
     [Weight] nvarchar(max)  NULL,
     [Gender] nvarchar(max)  NOT NULL,
-    [DateOfBirth] datetime  NULL
+    [DateOfBirth] nvarchar(max)  NULL
 );
 GO
 
@@ -79,7 +73,9 @@ CREATE TABLE [dbo].[Events] (
     [EndDateTime] datetime  NOT NULL,
     [ContactPerson] nvarchar(max)  NOT NULL,
     [ContactDetails] nvarchar(max)  NOT NULL,
-    [Likes] bigint  NOT NULL
+    [UserUserId] int  NOT NULL,
+    [LikeCount] bigint  NOT NULL,
+    [DislikeCount] bigint  NOT NULL
 );
 GO
 
@@ -105,7 +101,7 @@ CREATE TABLE [dbo].[Comments] (
     [CId] int IDENTITY(1,1) NOT NULL,
     [CDescription] nvarchar(max)  NOT NULL,
     [CDateTime] datetime  NOT NULL,
-    [EventEventId] int  NULL
+    [EventEventId] int  NOT NULL
 );
 GO
 

@@ -12,7 +12,7 @@ namespace FIT5032_ozzFIT_V2.Utils
     {
 
         // Please use your API KEY here.
-        private const String API_KEY = "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";
+        private const String API_KEY = "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";
 
         public void Send(String toEmail, String subject, String contents)
         {

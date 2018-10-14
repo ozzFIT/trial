@@ -1,8 +1,8 @@
-
+﻿
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/11/2018 13:01:06
+-- Date Created: 10/08/2018 23:00:29
 -- Generated from EDMX file: \\ad.monash.edu\home\User039\aram0008\Desktop\IAD\Assignment\V2\FIT5032_ozzFIT_V2\FIT5032_ozzFIT_V2\Models\UserDatabaseModel1.edmx
 -- --------------------------------------------------
 
@@ -65,7 +65,7 @@ CREATE TABLE [dbo].[Users] (
     [Height] nvarchar(max)  NULL,
     [Weight] nvarchar(max)  NULL,
     [Gender] nvarchar(max)  NOT NULL,
-    [DateOfBirth] datetime  NULL
+    [DateOfBirth] nvarchar(max)  NULL
 );
 GO
 
@@ -79,7 +79,8 @@ CREATE TABLE [dbo].[Events] (
     [EndDateTime] datetime  NOT NULL,
     [ContactPerson] nvarchar(max)  NOT NULL,
     [ContactDetails] nvarchar(max)  NOT NULL,
-    [Likes] bigint  NOT NULL
+    [LikeCount] bigint  NOT NULL,
+    [DislikeCount] bigint  NOT NULL
 );
 GO
 

@@ -3,23 +3,79 @@
 }
 
 @*<style>
-    body {
-        background-image: url('../Content/UsersIndex.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        color: white;
-    }
-</style>*@
+        body {
+            background-image: url('../Content/UsersIndex.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            color: white;
+        }
+    </style>*@
 
-<main class="jumbotron" style="background-image: url(../../Content/UsersIndex.jpg); color:white">
+@*<main class="jumbotron" style="background-image: url(../../Content/UsersIndex.jpg); color:white">
     <div class="container">
         <h1>ozzFIT</h1>
         <p class="lead">Fitness is a lifestyle</p>
-        <br> 
+        <br>
         <p>Choose to be fit with ozzFIT</p>
     </div>
-</main>
+</main>*@
+
+
+<section id="main-area">
+    <div class="container">
+        <div class="row">
+            <div id="artCarousel" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#artCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#artCarousel" data-slide-to="1"></li>
+                    <li data-target="#artCarousel" data-slide-to="2"></li>
+                </ol>
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img srcset="~/Content/UsersIndex.jpg" alt="Group Fitness">
+                        <div class="carousel-caption">
+                            <h3>ozzFIT</h3>
+                            <p class="lead">Fitness is a lifestyle</p>
+                            <br>
+                            <p>Choose to be fit with ozzFIT</p>
+                            <p>"With ozzFIT not only can you send you healthy activities but also helps you grow healthy together with people of same interest." </p>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="item">
+                        <img srcset="~/Content/events.jpg" alt="Events">
+                        <div class="carousel-caption">
+                            <h3>Events</h3>
+                            <p>"A Healthy Outside starts from the Inside" </p>
+                        </div>
+                    </div>
+
+                </div>
+                    
+                 
+                    <a class="left carousel-control" href="#artCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#artCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
 
 
 <div class="bs-docs-featurette">
@@ -44,33 +100,33 @@
             <div class="col-md-4">
                 <h2>Connect</h2>
                 <p>Connect with your friends and work together towards a healthier goal.</p>
-               @* @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })*@
+                @* @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })*@
             </div>
         </div>
-        
+
     </div>
 </div>
 
 @*<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Sign up to ozzFIT to get events details and healthy meal options every day.
-        </p>
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                Sign up to ozzFIT to get events details and healthy meal options every day.
+            </p>
 
-        @Html.ActionLink("Sign Up", "Register", "Account", new { area = "" }, new { @class = "btn btn-default" })
-    </div>
-    <div class="col-md-4">
-        <h2>Browse events</h2>
-        <p>Signup for events and get more out of life. Get started now</p>
-        @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })
-    </div>
-    <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+            @Html.ActionLink("Sign Up", "Register", "Account", new { area = "" }, new { @class = "btn btn-default" })
         </div>
-</div>*@
+        <div class="col-md-4">
+            <h2>Browse events</h2>
+            <p>Signup for events and get more out of life. Get started now</p>
+            @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })
+        </div>
+        <div class="col-md-4">
+                <h2>Web Hosting</h2>
+                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+            </div>
+    </div>*@
 
 
 

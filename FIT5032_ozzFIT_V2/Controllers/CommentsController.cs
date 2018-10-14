@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using FIT5032_ozzFIT_V2.Models;
 
@@ -17,7 +18,12 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // GET: Comments
         public ActionResult Index()
         {
+            //var currentEvent = new Event();
+            //ViewBag.EventEventId = currentEvent.EventId;
+            //ViewBag.EventEventName = currentEvent.EventName;
             var comments = db.Comments.Include(c => c.Event);
+            //var currentEvent = db.Comments.Include(c => c.Event);
+            
             return View(comments.ToList());
         }
 
@@ -36,12 +42,21 @@ namespace FIT5032_ozzFIT_V2.Controllers
             return View(comments);
         }
 
+        [HttpGet]
         // GET: Comments/Create
-        public ActionResult Create()
+        public ActionResult Create(string id)
         {
-            ViewBag.EventEventId = new SelectList(db.Events, "EventId", "EventName");
-            ViewBag.CDateTime = DateTime.Now.ToString();
-            return View();
+            int eventId = int.Parse(id);
+
+            Comments comments = new Comments();
+            comments.EventEventId = eventId;
+            ViewBag.EventEventName = db.Events.SingleOrDefault(x => x.EventId == eventId).EventName;
+            //var currentEvent = new Event();
+            //ViewBag.EventEventId = currentEvent.EventId;
+            //ViewBag.EventEventName = currentEvent.EventName;
+
+            //ViewData["EventId"] = db.Events.SingleOrDefault(x => x.EventId == eventId).EventId;
+            return View(comments);
         }
 
         // POST: Comments/Create
@@ -49,18 +64,20 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "CommentId,CDescription,CDateTime,EventEventId")] Comments comments)
+        public ActionResult Create([Bind(Include = "CId,CDescription,CDateTime,EventEventId")] Comments comments)
         {
             if (ModelState.IsValid)
             {
                 //db.Comments.Add(comments);
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
+                System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex("<[^>]*>");
+
 
                 var newComment = db.Comments.Create();
-                newComment.CDateTime = DateTime.Now.ToString();
-                newComment.CDescription = comments.CDescription.ToString();
-                //newComment.EventEventId = EventHandlerTaskAsyncHelper.
+                newComment.CDateTime = DateTime.Now.ToLocalTime();
+                newComment.CDescription = rx.Replace(comments.CDescription, "");   //comments.CDescription.ToString();
+                newComment.EventEventId = comments.EventEventId;
                 db.Comments.Add(newComment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -91,7 +108,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CommentId,CDescription,CDateTime,EventEventId")] Comments comments)
+        public ActionResult Edit([Bind(Include = "CId,CDescription,CDateTime,EventEventId")] Comments comments)
         {
             if (ModelState.IsValid)
             {
@@ -137,5 +154,27 @@ namespace FIT5032_ozzFIT_V2.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //private static string HtmlToPlainText(string html)
+        //{
+        //    const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";//matches one or more (white space or line breaks) between '>' and '<'
+        //    const string stripFormatting = @"<[^>]*(>|$)";//match any character between '<' and '>', even when end tag is missing
+        //    const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";//matches: <br>,<br/>,<br />,<BR>,<BR/>,<BR />
+        //    var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        //    var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        //    var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+
+        //    var text = html;
+        //    //Decode html specific characters
+        //    text = System.Net.WebUtility.HtmlDecode(text);
+        //    //Remove tag whitespace/line breaks
+        //    text = tagWhiteSpaceRegex.Replace(text, "><");
+        //    //Replace <br /> with line breaks
+        //    text = lineBreakRegex.Replace(text, Environment.NewLine);
+        //    //Strip formatting
+        //    text = stripFormattingRegex.Replace(text, string.Empty);
+
+        //    return text;
+        //}
     }
 }
