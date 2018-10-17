@@ -18,6 +18,7 @@ namespace FIT5032_ozzFIT_V2.Models
         public User()
         {
             this.EventMembers = new HashSet<EventMember>();
+            this.Consultations = new HashSet<Consultation>();
         }
     
         public int UserId { get; set; }
@@ -33,5 +34,7 @@ namespace FIT5032_ozzFIT_V2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMember> EventMembers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Consultation> Consultations { get; set; }
     }
 }

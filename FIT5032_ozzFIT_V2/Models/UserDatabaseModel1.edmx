@@ -11,6 +11,7 @@
     <EntitySet Name="EventMembers" EntityType="UserDatabaseModel1.Store.EventMembers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Emails" EntityType="UserDatabaseModel1.Store.Emails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Comments" EntityType="UserDatabaseModel1.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Consultations" EntityType="UserDatabaseModel1.Store.Consultations" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserEventMember" Association="UserDatabaseModel1.Store.UserEventMember">
       <End Role="User" EntitySet="Users" />
       <End Role="EventMember" EntitySet="EventMembers" />
@@ -26,6 +27,10 @@
     <AssociationSet Name="EventComments" Association="UserDatabaseModel1.Store.EventComments">
       <End Role="Event" EntitySet="Events" />
       <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="UserConsultation" Association="UserDatabaseModel1.Store.UserConsultation">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Consultation" EntitySet="Consultations" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Users">
@@ -56,6 +61,7 @@
     <Property Name="ContactPerson" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ContactDetails" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Likes" Type="bigint" Nullable="false" />
+    <Property Name="IsLike" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="EventMembers">
     <Key>
@@ -83,6 +89,17 @@
     <Property Name="CDescription" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CDateTime" Type="datetime" Nullable="false" />
     <Property Name="EventEventId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Consultations">
+    <Key>
+      <PropertyRef Name="ConsultationId" />
+    </Key>
+    <Property Name="ConsultationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartDT" Type="datetime" Nullable="false" />
+    <Property Name="EndDT" Type="datetime" Nullable="false" />
+    <Property Name="RDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserUserId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="UserEventMember">
     <End Role="User" Type="UserDatabaseModel1.Store.Users" Multiplicity="1" />
@@ -132,6 +149,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="UserConsultation">
+    <End Role="User" Type="UserDatabaseModel1.Store.Users" Multiplicity="1" />
+    <End Role="Consultation" Type="UserDatabaseModel1.Store.Consultations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Consultation">
+        <PropertyRef Name="UserUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -158,6 +187,11 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="Consultations" EntityType="UserDatabaseModel1.Consultation" />
+          <AssociationSet Name="UserConsultation" Association="UserDatabaseModel1.UserConsultation">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Consultation" EntitySet="Consultations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -174,6 +208,7 @@
           <Property Name="Gender" Type="String" Nullable="false" />
           <Property Name="DateOfBirth" Type="DateTime" Nullable="true" />
           <NavigationProperty Name="EventMembers" Relationship="UserDatabaseModel1.UserEventMember" FromRole="User" ToRole="EventMember" />
+          <NavigationProperty Name="Consultations" Relationship="UserDatabaseModel1.UserConsultation" FromRole="User" ToRole="Consultation" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -191,6 +226,7 @@
           <Property Name="Likes" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Emails" Relationship="UserDatabaseModel1.EventEmail" FromRole="Event" ToRole="Email" />
           <NavigationProperty Name="Comments" Relationship="UserDatabaseModel1.EventComments" FromRole="Event" ToRole="Comments" />
+          <Property Name="IsLike" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EventMember">
           <Key>
@@ -271,6 +307,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Consultation">
+          <Key>
+            <PropertyRef Name="ConsultationId" />
+          </Key>
+          <Property Name="ConsultationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDT" Type="DateTime" Nullable="false" />
+          <Property Name="EndDT" Type="DateTime" Nullable="false" />
+          <Property Name="RDescription" Type="String" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="UserDatabaseModel1.UserConsultation" FromRole="Consultation" ToRole="User" />
+          <Property Name="UserUserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="UserConsultation">
+          <End Type="UserDatabaseModel1.User" Role="User" Multiplicity="1" />
+          <End Type="UserDatabaseModel1.Consultation" Role="Consultation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Consultation">
+              <PropertyRef Name="UserUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -305,6 +365,7 @@
           <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
           <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
           <ScalarProperty Name="Likes" ColumnName="Likes" />
+          <ScalarProperty Name="IsLike" ColumnName="IsLike" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -334,6 +395,18 @@
           <ScalarProperty Name="CDescription" ColumnName="CDescription" />
           <ScalarProperty Name="CDateTime" ColumnName="CDateTime" />
           <ScalarProperty Name="EventEventId" ColumnName="EventEventId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Consultations">
+      <EntityTypeMapping TypeName="IsTypeOf(UserDatabaseModel1.Consultation)">
+        <MappingFragment StoreEntitySet="Consultations">
+          <ScalarProperty Name="ConsultationId" ColumnName="ConsultationId" />
+          <ScalarProperty Name="StartDT" ColumnName="StartDT" />
+          <ScalarProperty Name="EndDT" ColumnName="EndDT" />
+          <ScalarProperty Name="RDescription" ColumnName="RDescription" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

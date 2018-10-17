@@ -21,9 +21,10 @@
             </div>
             <nav class="collapse navbar-collapse" id="bs-navbar">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li><a href="/Home/Index#about">About</a></li>
+                    <li><a href="/Home/Index#contact">Contact Us</a></li>
                     <li>@Html.ActionLink("Events", "Index", "Events")</li>
+                    <li>@Html.ActionLink("Consultations", "Index", "Consultations") </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </nav>
@@ -69,13 +70,17 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
+    @Scripts.Render("~/bundles/fullcalendar")
 
     @Scripts.Render("~/bundles/jqueryval")
-   
+
     @Scripts.Render("~/bundles/Script-custom-editor")
 
- 
+
     @RenderSection("scripts", required: false)
+
+    @RenderSection("Styles", false)
+
+
 </body>
 </html>

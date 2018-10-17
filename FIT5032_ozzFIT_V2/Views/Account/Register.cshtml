@@ -105,7 +105,7 @@
             <div class="col-md-3">
 
                 <div class="input-group" id="DateOfBirth">
-                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", placeholder = "dd/mm/yyyy" })
                    
 
                     <div class="input-group-addon">
@@ -180,7 +180,7 @@
             $(function () {
                 $("#DateOfBirth").datetimepicker(
                     {
-                        format: 'MM/DD/YYYY',
+                        format: 'DD/MM/YYYY',
                         widgetPositioning: {
                             horizontal: 'auto',
                             vertical: 'bottom'

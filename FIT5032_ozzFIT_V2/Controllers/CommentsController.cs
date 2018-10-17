@@ -80,7 +80,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
                 newComment.EventEventId = comments.EventEventId;
                 db.Comments.Add(newComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");   
             }
 
             ViewBag.EventEventId = new SelectList(db.Events, "EventId", "EventName", comments.EventEventId);

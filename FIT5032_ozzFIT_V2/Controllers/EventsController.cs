@@ -17,6 +17,25 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // GET: Events
         public ActionResult Index()
         {
+
+
+
+            foreach (Event evenetTble in db.Events.ToList())
+            {
+                //evenetTble.IsLike = true;
+
+                //if (evenetTble.IsLike)
+                //{
+                //    evenetTble.IsLike = false;
+                //}
+                //else
+                //{
+                //    evenetTble.IsLike = true;
+                //}
+
+                db.SaveChanges();
+            }
+
             return View(db.Events.ToList());
         }
 
@@ -38,11 +57,8 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-
             Event @event = new Event();
             @event.Likes = 0;
-            
-
             return View(@event);
         }
 
@@ -51,7 +67,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,LikeCount,DislikeCount")] Event @event)
+        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,Likes,IsLike")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +99,7 @@ namespace FIT5032_ozzFIT_V2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,LikeCount,DislikeCount")] Event @event)
+        public ActionResult Edit([Bind(Include = "EventId,EventName,EventDescription,Location,StartDateTime,EndDateTime,ContactPerson,ContactDetails,Likes,IsLike")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -129,13 +145,35 @@ namespace FIT5032_ozzFIT_V2.Controllers
             base.Dispose(disposing);
         }
 
-
         public ActionResult Like(int id)
         {
             Event updateLike = db.Events.ToList().Find(u => u.EventId == id);
-            updateLike.Likes += 1;
+
+            //if(updateLike.Likes == 0)
+            //{
+            //    updateLike.Likes += 1;
+            //    ViewData["IsEnabled"] = false;
+            //    updateLike.IsLike = false;
+            //}
+            if (updateLike.IsLike)
+            {
+                updateLike.Likes += 1;
+
+                updateLike.IsLike = true;
+                
+
+            }
+            else
+            {
+                updateLike.Likes -= 1;
+
+                updateLike.IsLike = false;
+
+            }
+            
             db.SaveChanges();
-             return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
+
     }
 }

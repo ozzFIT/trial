@@ -44,8 +44,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.EventName, "Details", new { id = item.EventId })
-                @*@Html.DisplayFor(modelItem => item.EventName)*@
+                @Html.DisplayFor(modelItem => item.EventName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EventDescription)
@@ -67,14 +66,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Likes)
-                <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-thumbs-up" id="like"></span>
-                </div>
-                @Html.ActionLink("Like", "Like", new { id = item.EventId })
+                <a href="@Url.Action("Like", "Events", new { id = @item.EventId })" class="input-group-addon"><span class="glyphicon glyphicon-thumbs-up" id="like"></span> Like </a>
+
+                @Html.EditorFor(modelItem => item.IsLike, new { htmlAttributes = new { @class = "form-control", @Value = "true" }, @hidden = "hidden" })
             </td>
 
+
+
             <td>
-                @*@Html.ActionLink("Send Email Notification", "Create", "Emails") |*@
                 <a href="/Emails/Create?id=@item.EventId">Send Email Notification</a> |
                 <a href="/Comments/Create?id=@item.EventId">Comments</a> |
                 @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
@@ -87,25 +86,50 @@
 </table>
 
 
-@*@section Scripts {
+@section Scripts {
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
     <script type="text/javascript">
-       
-            $("#like").click(function() 
-                {
 
-                    @Html.ActionLink("Like", "Like", new { id = EventId })
+        $(document).on("click", "a.like", function ()
+        {
+            if (!@ViewData["IsEnabled"]){
+                alert('disabled');
+                $('#input-group-addon').addClass('disabled');
+            }
+            else {
+        $(this).removeAttr("disabled");
+    }
+
+                //var id = $(this).data("EventId");
+                //var link = "EventsController/Like" + id;
+                //$.ajax({
+                //    type: "GET",
+                //    url: link;
+
+                //    }
+                //});
+                //    //$(this).find('input[type="click"]').attr('disabled', 'disabled');
+
 
                 });
-            $.validator.addMethod('date', function (value, element) {
-                var d = new Date;
-                //return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-                return d.toLocaleDateString('en-GB');
-            });
-            
-       
+
+        $('.input-group-addon').click(function () {
+
+            $this.prop('disabled', true);
+
+        });
+
+        @*$(function(){
+    if(!@ViewData["IsEnabled"]){
+        $('#input-group-addon').attr('disabled','disabled');
+    } else {
+        $(this).removeAttr("disabled");
+    }
+});*@
+
+
     </script>
-}*@
+}

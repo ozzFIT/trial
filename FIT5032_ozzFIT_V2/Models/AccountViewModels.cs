@@ -121,7 +121,7 @@ namespace FIT5032_ozzFIT_V2.Models
       
         [Required(ErrorMessage = "Date of birth is required")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:mm/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
     }
 

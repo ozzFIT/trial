@@ -31,6 +31,7 @@ namespace FIT5032_ozzFIT_V2.Models
         public string ContactPerson { get; set; }
         public string ContactDetails { get; set; }
         public long Likes { get; set; }
+        public bool IsLike { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventMember> EventMembers { get; set; }

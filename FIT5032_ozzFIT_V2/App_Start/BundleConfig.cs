@@ -34,7 +34,8 @@ namespace FIT5032_ozzFIT_V2
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
-                       "~/Scripts/lib/jquery.min.js",
+                        "~/Scripts/jquery-ui-1.12.1.min.js",
+                        "~/Scripts/lib/jquery.min.js",
                        "~/Scripts/lib/moment.min.js",
                        "~/Scripts/fullcalendar.js"));
 

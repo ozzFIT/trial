@@ -30,5 +30,6 @@ namespace FIT5032_ozzFIT_V2.Models
         public virtual DbSet<EventMember> EventMembers { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<Consultation> Consultations { get; set; }
     }
 }

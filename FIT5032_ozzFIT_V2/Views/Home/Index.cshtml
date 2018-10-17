@@ -34,25 +34,36 @@
                 </ol>
 
                 <div class="carousel-inner" role="listbox">
+
+                    @*ozzFIT*@
                     <div class="item active">
                         <img srcset="~/Content/UsersIndex.jpg" alt="Group Fitness">
                         <div class="carousel-caption">
-                            <h3>ozzFIT</h3>
-                            <p class="lead">Fitness is a lifestyle</p>
+                            <h3><font size="5" color="white">ozzFIT</font></h3>
+                            <p class="lead"><strong><font size="3" color="white">Fitness is a lifestyle</font></strong></p>
                             <br>
-                            <p>Choose to be fit with ozzFIT</p>
-                            <p>"With ozzFIT not only can you send you healthy activities but also helps you grow healthy together with people of same interest." </p>
+                            <p><strong><font size="3" color="white">Choose to be fit with ozzFIT</font></strong></p>
+                            @*<p>"With ozzFIT not only can you send you healthy activities but also helps you grow healthy together with people of same interest." </p>*@
                         </div>
                     </div>
 
 
 
-
+                    @*Events*@
                     <div class="item">
                         <img srcset="~/Content/events.jpg" alt="Events">
                         <div class="carousel-caption">
-                            <h3>Events</h3>
-                            <p>"A Healthy Outside starts from the Inside" </p>
+                            <h3><strong><font size="5" color="black">Events</font></strong></h3>
+                            <p><strong><font size="3" color="black">"Attitude is all that matters"</font></strong> </p>
+                        </div>
+                    </div>
+
+                    @*Nutritionist Counsellor*@
+                    <div class="item">
+                        <img srcset="~/Content/counsellor.jpg" alt="Events">
+                        <div class="carousel-caption">
+                            <h3><strong><font size="5" color="black">Consultations</font></strong></h3>
+                            <p><strong><font size="3" color="black">"What we eat makes all the difference."</font> </strong></p>
                         </div>
                     </div>
 
@@ -98,9 +109,9 @@
                 @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })
             </div>
             <div class="col-md-4">
-                <h2>Connect</h2>
-                <p>Connect with your friends and work together towards a healthier goal.</p>
-                @* @Html.ActionLink("Events", "Index", "Events", new { area = "" }, new { @class = "btn btn-default" })*@
+                <h2>Consultation</h2>
+                <p>Our nutritionists help you personally in order to make better choices.</p>
+                @Html.ActionLink("Book Consultation", "Create", "Consultations", new { area = "" }, new { @class = "btn btn-default" })
             </div>
         </div>
 
@@ -129,4 +140,34 @@
     </div>*@
 
 
+<section id="about">
+    <div class="container">
+        <div class="row text-center section_margintop50">
+            <h3> About ozzFIT </h3>
+            <p>Fitness is a lifestyle</p>
+            <p>ozzFIT strives to make Melbourne fit!</p> <br>
+            <p> It is for the fitness enthusiats, by the fitness enthusiasts. Any one can create events and people will be able to join in to have fun and make new frirnds.</p> <br>
+            <p>Additionally we have newletters to give you tips on how to integrate fitness easily into your busy lives.</p> <br>
+            <p> There are free cunsultations by fitness and nutritionist that you can attend to. </p> <br>
+            <br>
+        </div>
+    </div>
+</section>
 
+<section id="contact">
+    <div class="container">
+        <div class="row section_margintop50">
+            <h3 class="text-center">Contact Us</h3>
+           
+            <div class="row text-center">
+                <div class="col-md-12">
+                   <p> Monash University<br />
+                    900 Dandenong Rd, <br />
+                    Caulfield East VIC 3145<br /> </p>
+                </div>
+
+            </div>
+            <br>
+        </div>
+    </div>
+</section>

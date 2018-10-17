@@ -1,0 +1,280 @@
+﻿@model FIT5032_ozzFIT_V2.Models.Consultation
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Consultation reservation</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+    <div id="Reservation">
+
+        <div id="consultationScheduler"></div>
+
+        @*//View exsisting booking*@
+        <div id="consultationViewModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times; <span class="sr-only">close</span></button>
+                        <h4 class="modal-title"><span id="ReservationTitle"></span> </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartDT, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.StartDT, new { htmlAttributes = new { @class = "form-control", id = "StartDateTime" } })
+                                @Html.ValidationMessageFor(model => model.StartDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EndDT, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.EndDT, new { htmlAttributes = new { @class = "form-control", id = "EndDateTime" } })
+                                @Html.ValidationMessageFor(model => model.EndDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", id = "BookingStatus" } })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (Request.IsAuthenticated & User.IsInRole("Admin"))
+                    {
+                        <button type="submit" id="editBtn" class="btn btn-default" data-dismiss="modal">Update</button>
+                        <button type="submit" id="deleteBtn" class="btn btn-default" data-dismiss="modal">Delete</button>
+                    }
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+        @*adding reservation*@
+        <div id="consultationCreateModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times; <span class="sr-only">close</span></button>
+                        <h4 class="modal-title"> Make an Appointment </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RDescription, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", id = "ReservationTitleCreate" } })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartDT, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.StartDT, new { htmlAttributes = new { @class = "form-control", id = "StartDateTimeCreate" } })
+                                @Html.ValidationMessageFor(model => model.StartDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EndDT, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.EndDT, new { htmlAttributes = new { @class = "form-control", id = "EndDateTimeCreate" } })
+                                @Html.ValidationMessageFor(model => model.EndDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                                @Html.EditorFor(model => model.EndDT, new { htmlAttributes = new { @class = "form-control", id = "BookingStatusCreate" } })
+                                @Html.ValidationMessageFor(model => model.EndDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="bookBtn" class="btn btn-default" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @*<div class="form-horizontal">
+            <h4>Consultation</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartDT, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StartDT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StartDT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EndDT, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EndDT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserUserId, "UserUserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("UserUserId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserUserId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>*@
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" media="print" />
+    @Styles.Render("~/Content/css");
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/fullcalendar")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        $(document).ready(function () {
+            var startDateTimeCreate = $("#StartDateTimeCreate").datetimepicker({
+                format: "DD/MM/YYYY HH:mm:ss",
+                minDate: new Date().getTime(),
+                stepping: 30
+            });
+            var endDateTimeCreate = $("#EndDateTimeCreate").datetimepicker({
+                format: "DD/MM/YYYY HH:mm:ss",
+                minDate: new Date().getTime(),
+                stepping: 30
+            });
+            $('#consultationScheduler').fullCalendar({
+                contentHeight: 400,
+                defaultDate: new Date(),
+                //timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev, next today',
+                    center: 'title',
+                    right: 'month, basicWeek, basicDay, agenda'
+                },
+                defaultView: 'month',
+                //validRange: {
+                //    start: new Date()
+                //},
+                // weekends:false,
+                editable: true,
+                selectable: true,
+                eventLimit: true,
+                eventColor: '#378006',
+                events: "http://localhost:57677/Consultations/GetAppointments",
+                eventClick: function (appointment) {
+                    var start = moment(appointment.start).format("DD-MM-YYYY HH:mm:ss");
+                    var end = moment(appointment.end).format("DD-MM-YYYY HH:mm:ss");
+                    var description = appointment.description;
+                    var color = appointment.color;
+                    $("#ReservationTitle").text(appointment.title);
+                    $("#StartDateTime").val(start);
+                    $("#EndDateTime").val(end);
+                    $("#BookingStatus").val(description);
+
+                    $('#consultationViewModal').modal();
+                    return false;
+                },
+                dayClick: function (date, jsEvent, view) {
+                    $('#ReservationTitleCreate').val('');
+                    $('#StartDateTimeCreate').val('');
+                    $('#EndDateTimeCreate').val('');
+                    //var dunn = moment(date.start).format("DD-MM-YYYY HH:mm:ss");
+                    //var selectStart = $("#StartDateTime").val(dunn);
+                    //alert(selectStart);
+                    startDateTimeCreate.datetimepicker();
+                    endDateTimeCreate.datetimepicker();
+                    $('#consultationCreateModal').modal();
+
+                }
+
+            })
+            $('#bookBtn').on('click', function (e) {
+
+                e.preventDefault();
+                var title = $('#ReservationTitleCreate').val();
+                var start = $("#StartDateTimeCreate").val();
+                var end = $("#EndDateTimeCreate").val();
+                $("#BookingStatusCreate").val('Pending');
+                var description = $("#BookingStatusCreate").val();
+                var color = $("#ConsultantNameCreate").val();
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        "RDescription": title,
+                        "StartDT": start,
+                        "EndDT": end,
+                        "Status": description
+
+                    },
+                    dataType: 'json',
+                    url: 'http://localhost:57677/Consultations/SaveAppointment',
+                    success: function (data) {
+                        $("#consultationScheduler").fullCalendar('renderEvent',
+                            {
+
+                            },
+                            true);
+
+                        alert('Appointment created. Status is Pending.');
+                        $('#consultationScheduler').fullCalendar('refetchEvents');
+                    },
+                    error: function (error) {
+                        alert('failed');
+                    }
+                });
+
+
+            })
+        })
+
+    </script>
+
+}
